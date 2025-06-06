@@ -1,5 +1,6 @@
 # Import python packages
 import streamlit as st
+import requests
 from snowflake.snowpark.functions import col
 
 # Write directly to the app
@@ -25,6 +26,8 @@ if ingredients_list:
 
     for i in ingredients_list:
         ingredients_string += i + ' '
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
     #st.write(ingredients_string)
 
@@ -39,29 +42,4 @@ if ingredients_list:
        session.sql(my_insert_stmt).collect()
        st.success('Your Smoothie is ordered, ' + name_on_order + '!', icon="✅")
 
-
-import socket
-import requests
-
-st.title("Network Test")
-
-# DNS test
-try:
-    ip = socket.gethostbyname("my.smoothiefroot.com")
-    st.success(f"DNS Resolution Succeeded: {ip}")
-except Exception as e:
-    st.error(f"DNS Resolution Failed: {e}")
-
-# HTTP test
-try:
-    response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon", timeout=10)
-    st.success(f"Request Succeeded: {response.status_code}")
-except Exception as e:
-    st.error(f"Request Failed: {e}")
-
-import requests
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-st.text(smoothiefroot_response.json())
-
-sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
