@@ -39,9 +39,6 @@ if ingredients_list:
        session.sql(my_insert_stmt).collect()
        st.success('Your Smoothie is ordered, ' + name_on_order + '!', icon="✅")
 
-# import requests
-# smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-# st.text(smoothiefroot_response)
 
 import socket
 import requests
@@ -61,4 +58,8 @@ try:
     st.success(f"Request Succeeded: {response.status_code}")
 except Exception as e:
     st.error(f"Request Failed: {e}")
+
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
 
