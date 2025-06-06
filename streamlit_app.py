@@ -39,6 +39,26 @@ if ingredients_list:
        session.sql(my_insert_stmt).collect()
        st.success('Your Smoothie is ordered, ' + name_on_order + '!', icon="✅")
 
+# import requests
+# smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+# st.text(smoothiefroot_response)
+
+import socket
 import requests
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-st.text(smoothiefroot_response)
+
+st.title("Network Test")
+
+# DNS test
+try:
+    ip = socket.gethostbyname("my.smoothiefroot.com")
+    st.success(f"DNS Resolution Succeeded: {ip}")
+except Exception as e:
+    st.error(f"DNS Resolution Failed: {e}")
+
+# HTTP test
+try:
+    response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon", timeout=10)
+    st.success(f"Request Succeeded: {response.status_code}")
+except Exception as e:
+    st.error(f"Request Failed: {e}")
+
